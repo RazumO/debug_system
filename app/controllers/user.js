@@ -5,6 +5,8 @@ var express = require('express'),
     User = require('./../models/user.js'),
     passwordHash = require('password-hash'),
     jwt = require('jsonwebtoken'),
+    protectorMiddleware = require('./../middleware/protector'),
+    BlackList = require('./../models/blacklist.js'),
     logger = require('./../helpers/logger.js');
 
 module.exports = function (app) {
@@ -52,13 +54,27 @@ module.exports = function (app) {
                     });
             }
         }).catch(function (err) {
-            //TODO Generate 500 error
             console.log(err);
-
         })
     });
+
+    router.use('/logout', protectorMiddleware(app));
+
+    router.get('/logout', function (req, res) {
+        var blackListItem = new BlackList();
+        blackListItem.Token = req.token;
+        blackListItem.save().then(function () {
+            res.json({ success: true, message: 'User was successfully logged out.' });
+        }).catch(function (err) {
+            console.log(err);
+        });
+
+    });
+
     return router;
 };
+
+
 
 
 

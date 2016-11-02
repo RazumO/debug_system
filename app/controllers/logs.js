@@ -5,6 +5,7 @@ var express = require('express'),
     router = express.Router(),
     Log = require('./../models/log.js'),
     logger = require('./../helpers/logger.js'),
+    jwtChecker = require('express-jwt'),
     protectorMiddleware = require('./../middleware/protector');
 
 module.exports = function (app) {
@@ -35,6 +36,15 @@ module.exports = function (app) {
                 logger.log(userId, err)
                     .catch(logger.processLoggerError);
             });
+    });
+
+    router.use(function (err, req, res, next) {
+        console.log(err.name);
+        if (err.name === 'UnauthorizedError') {
+            return res.status(401).send('Invalid token.');
+        } else {
+            next();
+        }
     });
 
     return  router;

@@ -10,20 +10,18 @@ module.exports = function (app) {
             jwt.verify(token, app.get('userSecret'), function(err, decoded) {
                 if (err) {
                     return res.json({ success: false, message: 'Failed to authenticate token.' });
-                } else {
-                    BlackList.findOne({Token: token})
-                        .then(function (blockedToken) {
-                            if (blockedToken) {
-                                console.log(blockedToken);
-                                return res.json({ success: false, message: 'Failed to authenticate token.' });
-                            } else {
-                                req.decoded = decoded;
-                                req.token = token;
-                                next();
-                            }
-                        })
-
                 }
+                BlackList.findOne({Token: token})
+                    .then(function (blockedToken) {
+                        if (blockedToken) {
+                            return res.json({ success: false, message: 'Failed to authenticate token.' });
+                        } else {
+                            req.decoded = decoded;
+                            req.token = token;
+                            next();
+                        }
+                    })
+
             });
 
         } else {

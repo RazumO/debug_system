@@ -55,6 +55,7 @@ module.exports = function (app) {
             }
         }).catch(function (err) {
             console.log(err);
+            res.status(500);
         })
     });
 
@@ -67,6 +68,7 @@ module.exports = function (app) {
             res.json({ success: true, message: 'User was successfully logged out.' });
         }).catch(function (err) {
             console.log(err);
+            res.status(500);
         });
 
     });

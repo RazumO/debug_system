@@ -5,7 +5,6 @@ var express = require('express'),
     router = express.Router(),
     Log = require('./../models/log.js'),
     logger = require('./../helpers/logger.js'),
-    jwtChecker = require('express-jwt'),
     protectorMiddleware = require('./../middleware/protector');
 
 module.exports = function (app) {
@@ -20,7 +19,10 @@ module.exports = function (app) {
             .catch(function (err) {
                 console.log(err);
                 logger.log(userId, err)
-                    .catch(logger.processLoggerError);
+                    .catch(logger.processLoggerError)
+                    .then(function(){
+                        res.status(500);
+                    });
             })
     });
 
@@ -34,7 +36,10 @@ module.exports = function (app) {
             .catch(function (err) {
                 console.log(err);
                 logger.log(userId, err)
-                    .catch(logger.processLoggerError);
+                    .catch(logger.processLoggerError)
+                    .then(function(){
+                        res.status(500);
+                    });
             });
     });
 

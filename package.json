@@ -1,0 +1,19 @@
+{
+  "name": "debug_system",
+  "version": "1.0.0",
+  "description": "Debug system",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "author": "Oleksii Razumovskyi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.6.5",
+    "password-hash": "^1.2.2"
+  }
+}
